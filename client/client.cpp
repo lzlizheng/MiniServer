@@ -8,7 +8,8 @@ int ReadSendingData(string& sendbuf)
 	string file("callfunc.txt");
 
     infile.open(file.data());   //将文件流对象与文件连接起来 
-    assert(infile.is_open());   //若失败,则输出错误消息,并终止程序运行
+	bool is_open = infile.is_open();
+    assert(is_open);   //若失败,则输出错误消息,并终止程序运行
 
 	infile>>sendbuf;
 //	cout<<sendbuf<<endl;
@@ -65,18 +66,84 @@ int SendRequest(const string& sendbuf, string& resbuf)
 
 
 	//发送消息
-	if(send(soc,(const char *)sendbuf.c_str(),sendbuf.size(), 0) <= 0)
+	//发送hello server!,测试服务器是否正常工作
+	if(send(soc, "hello server!", 13, 0) <= 0)
 	{
 		cout<<"send Error!"<<endl;
 	}
+	else
+	{
+		cout<<"send hello world!"<<endl;
+	}
 
+	//确认服务器回复的消息
+	char buf[64] = {0};
+	int buflen = recv(soc, buf, 9, 0);
+	string strRecvServerOK(buf);
+
+	if(buflen < 0)
+	{
+		//接收失败
+		return -2;
+	}
+
+	if (strRecvServerOK != "server ok")
+	{
+		cout<<"strRecvServerOK fail"<<endl;
+		return -3;
+	}
+	else
+	{
+		cout<<strRecvServerOK<<endl;
+	}
+
+	//客户端发送用户名和密码，向服务器申请鉴权
+	string name_password("lizheng:123");
+	if(send(soc,(const char *)name_password.c_str(), name_password.size(), 0) <= 0)
+	{
+		cout<<"send Error!"<<endl;
+	}
+	else
+	{
+		cout<<"send  "<<name_password<<endl;
+	}
+
+	//查看服务器是否返回server ok
+	buflen = recv(soc, buf, 9, 0);
+	strRecvServerOK = buf;
+	
+	if(buflen < 0)
+	{
+		//接收失败
+		return -2;
+	}
+
+	if (strRecvServerOK != "server ok")
+	{
+		cout<<"strRecvServerOK fail"<<endl;
+		return -3;
+	}
+	else
+	{
+		cout<<strRecvServerOK<<endl;
+	}
+
+	//发送请求数据
+	if(send(soc,(const char *)sendbuf.c_str(), sendbuf.size(), 0) <= 0)
+	{
+		cout<<"send Error!"<<endl;
+	}
+	else
+	{
+		cout<<"send  "<<name_password<<endl;
+	}
 
 	//接收消息，不断读取协议接收缓冲区
-	char buf[64] = {0};
+	memset(buf, 0, sizeof(buf));
 	int rs = 1;
 	while(rs)
 	{
-		int buflen = recv(soc, buf, sizeof(buf), 0);
+		buflen = recv(soc, buf, sizeof(buf), 0);
 		resbuf += buf;
 		if(buflen < 0)
 		{

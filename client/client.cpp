@@ -67,7 +67,7 @@ int SendRequest(const string& sendbuf, string& resbuf)
 
 	//发送消息
 	//发送hello server!,测试服务器是否正常工作
-	if(send(soc, "hello server!", 13, 0) <= 0)
+	if(send(soc, "hello server", 12, 0) <= 0)
 	{
 		cout<<"send Error!"<<endl;
 	}
@@ -98,7 +98,7 @@ int SendRequest(const string& sendbuf, string& resbuf)
 	}
 
 	//客户端发送用户名和密码，向服务器申请鉴权
-	string name_password("lizheng:123");
+	string name_password("lz 123");
 	if(send(soc,(const char *)name_password.c_str(), name_password.size(), 0) <= 0)
 	{
 		cout<<"send Error!"<<endl;

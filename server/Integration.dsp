@@ -85,7 +85,7 @@ LINK32=link.exe
 # PROP Default_Filter "cpp;c;cxx;rc;def;r;odl;idl;hpj;bat"
 # Begin Source File
 
-SOURCE=.\QRequest.cpp
+SOURCE=.\login.cpp
 # End Source File
 # Begin Source File
 
@@ -109,7 +109,15 @@ SOURCE=.\CommenUtil.h
 # End Source File
 # Begin Source File
 
-SOURCE=.\qRequest.h
+SOURCE=.\login.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\req_node.h
+# End Source File
+# Begin Source File
+
+SOURCE=.\res_node.h
 # End Source File
 # Begin Source File
 

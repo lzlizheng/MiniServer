@@ -150,7 +150,7 @@ int main()
 		}
 		else
 		{
-			cout<<strRecv<<endl;
+			cout<<"recv "<<strRecv<<endl;
 		}
 
 		//发送server ok
@@ -160,11 +160,11 @@ int main()
 		}
 		else
 		{
-			cout<<"send hello world!"<<endl;
+			cout<<"send server ok"<<endl;
 		}
 
 		//接收鉴权申请，并进行鉴权
-		memset(buf,BUFLEN,0);
+		memset(buf,0,BUFLEN);
 		buflen = recv(NewConnection, buf, BUFLEN, 0);
 		if(buflen < 0)
 		{

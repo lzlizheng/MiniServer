@@ -1,0 +1,5 @@
+*.pch
+*.ncb
+*.plg
+*.opt
+Debug
